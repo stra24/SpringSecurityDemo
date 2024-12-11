@@ -1,9 +1,10 @@
-CREATE TABLE fruits(
-	id INT NOT NULL PRIMARY KEY,
-	name VARCHAR(255) NOT NULL,
-	price INT NOT NULL
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    authority VARCHAR(20) NOT NULL
 );
 
-insert into fruits values(1, "apple", 100);
-insert into fruits values(2, "banana", 150);
-insert into fruits values(3, "melon", 500);
+-- INSERT INTO users (username, password, authority) VALUES
+-- ('taro', '{bcrypt}$2a$10$abcdefghijklmnopqrstuvxyz12345678', 'ADMIN'),
+-- ('hanako', '{bcrypt}$2a$10$abcdefghijklmnopqrstuvxyz12345678', 'GENERAL');
