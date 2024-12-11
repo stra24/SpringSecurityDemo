@@ -18,6 +18,13 @@ public class UserService implements UserDetailsService {
     private UserMapper userMapper;
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * ログイン時、Spring SecurityはUserDetailsServiceのloadUserByUsernameメソッドを呼び出し、
+     * usernameに対応するユーザー情報を取得します。
+     * その後、Spring Securityはフォームに入力されたpasswordとUserDetailsオブジェクト内のパスワード
+     * （データベースに保存されているパスワード）を比較します。
+     * 比較には、PasswordEncoder（通常はBCryptなど）を使用します。
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.findByName(username);

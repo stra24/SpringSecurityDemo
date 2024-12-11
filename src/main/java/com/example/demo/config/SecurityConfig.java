@@ -34,6 +34,8 @@ public class SecurityConfig {
                 .formLogin(formLogin ->  // フォームベースのログインを設定する
                         formLogin
                             .loginPage("/login") // ログインページのURL。未認証ユーザーからのリクエストはGet /loginに飛ばす。POST /loginをログイン処理とする。
+                            .usernameParameter("name") // SpringSecurityデフォルトのユーザー名usernameをuserに変更。
+                            .passwordParameter("pass") // SpringSecurityデフォルトのパスワード名passwordをpassに変更。
                             .permitAll() // ログインページは認証なしで許可する
                             .failureUrl("/login?failure") // ログイン失敗時に遷移するURL
                             .defaultSuccessUrl("/mypage", true) // ログイン成功時に遷移するURL, 第二引数をtrueにすると、ログイン前のURL?continueにリダイレクトせずに第一引数に遷移してくれる。
