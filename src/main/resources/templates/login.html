@@ -1,29 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+  <title>ログインページ</title>
 </head>
 <body>
-<div th:if="${param.error}">
-    <p>Invalid username and password.</p>
+<h1>ログインページです。</h1>
+<hr>
+<!-- クエリパラメータfailure=trueが指定されていれば、表示される。 -->
+<div th:if="${param.failure}">
+  <p>ユーザー名またはパスワードが間違っています。</p>
 </div>
+
+<!-- クエリパラメータlogout=trueが指定されていれば、表示される。 -->
 <div th:if="${param.logout}">
-    <p>You have been logged out.</p>
+  <p>ログアウトしました。</p>
 </div>
 <form th:action="@{/login}" method="post">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <div>
-        <label>Username: </label>
-        <input type="text" name="name" required/>
-    </div>
-    <div>
-        <label>Password: </label>
-        <input type="password" name="pass" required/>
-    </div>
-    <button type="submit">Login</button>
+  <!--  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+  <div>
+    <label>ユーザー名: </label>
+    <input type="text" name="name" required/>
+  </div>
+  <div>
+    <label>パスワード: </label>
+    <input type="password" name="pass" required/>
+  </div>
+  <button type="submit">ログイン</button>
 </form>
-<p>
-    Don't have an account? <a th:href="@{/register}">Register</a>  <!-- 新規アカウント作成ページへのリンクを追加 -->
-</p>
+<a th:href="@{/register}" style="font-size: 16px;">ユーザーを登録する</a>
+<form th:action="@{/delete}" method="post">
+  <button type="submit"
+          style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer; padding: 0; margin: 0; font-size: 16px;">
+    ユーザーを全て削除する
+  </button>
+</form>
+
+<div th:if="${userDtoList != null && !userDtoList.isEmpty()}">
+  <table>
+    <thead>
+    <tr>
+      <th>ユーザー名</th>
+      <th>権限</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- th:eachでリストを繰り返し処理 -->
+    <tr th:each="user : ${userDtoList}">
+      <td th:text="${user.name}"></td>
+      <td th:text="${user.authority}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div th:if="${userDtoList == null || userDtoList.isEmpty()}">
+  <p>ユーザーは1件も登録されていません。</p>
+</div>
 </body>
 </html>

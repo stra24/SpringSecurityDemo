@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>マイページ</title>
 </head>
 <body>
 <h1>マイページです。</h1>
+<hr>
+<p>ログインユーザー名：<span sec:authentication="principal.user.name"></span></p>
+
+<!-- 現在ログインしているユーザーの権限を表示 -->
+<p>ログインユーザーの権限:
+  <!-- authentication.authorities内の権限を表示するには、以下の方法を使う。
+    <span th:each="authority : ${#authentication.authorities}">
+      <span th:text="${authority}"></span>
+    </span>
+  -->
+  <!--principal.user.authorityの権限を表示するには、以下の方法を使う。 -->
+  <span sec:authentication="principal.user.authority"></span>
+</p>
+
+<!-- 特定の権限を持つかどうかを条件分岐 -->
+<div sec:authorize="hasAuthority('ADMIN')">
+  <p>このセクションは管理者のみが閲覧可能です。</p>
+</div>
+
+<div sec:authorize="hasAuthority('GENERAL')">
+  <p>このセクションは一般と管理者が閲覧可能です。</p>
+</div>
+<form th:action="@{/logout}" method="post">
+  <button type="submit">ログアウト</button>
+</form>
 </body>
 </html>
