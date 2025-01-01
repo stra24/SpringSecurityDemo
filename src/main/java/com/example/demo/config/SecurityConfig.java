@@ -24,7 +24,7 @@ public class SecurityConfig {
     http
         .authorizeHttpRequests(authorize ->
             authorize
-                .requestMatchers("/register", "/login", "/delete")
+                .requestMatchers("/register", "/login", "/delete", "/favicon.ico")
                 .permitAll() // /register, login, deleteへのリクエストは認証なしで許可する
                 .anyRequest().authenticated() // それ以外の全てのリクエストは認証が必要とする
         )

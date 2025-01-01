@@ -5,3 +5,9 @@ spring:
     password: ${DB_PASS}
   config:
     import: optional:file:.env[.properties]
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
