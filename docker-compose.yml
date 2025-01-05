@@ -7,11 +7,11 @@ services:
     ports:
       - "8081:8080" # ローカルの8081ポートと、コンテナ内の8080ポートを接続する。
     depends_on:
-      - db # spring-appサービスはdbサービスが起動してから実行されるようにする。
+      - app-db # spring-appサービスはapp-dbサービスが起動してから実行されるようにする。
 
-  db: # MySQLのサービスに関する設定
+  app-db: # MySQLのサービスに関する設定
     image: mysql:8.0 # 使用するDockerイメージ
-    container_name: mysql # コンテナ名
+    container_name: app-mysql # コンテナ名
     ports:
       - ${DB_PORT}:3306 # ローカルの該当ポートと、コンテナ内の3306ポートを接続する。
     environment: # MySQLの初期設定を定義する環境変数
@@ -21,8 +21,25 @@ services:
       MYSQL_PASSWORD: ${DB_PASS} # DBのパスワード
       TZ: ${TZ} # タイムゾーン
     volumes:
-      - db-data:/var/lib/mysql # コンテナの /var/lib/mysql ディレクトリ（MySQL のデータが保存される場所）をホストにマウント。
+      - app-db-data:/var/lib/mysql # コンテナの /var/lib/mysql ディレクトリ（MySQL のデータが保存される場所）をホストにマウント。
       - ./conf/my.cnf:/etc/mysql/conf.d/my.cnf # コンテナのdb設定ファイル /etc/mysql/conf.d/my.cnf を、ローカルの ./conf/my.cnf へマウント
       - ./initdb.d:/docker-entrypoint-initdb.d # 初期テーブルの作成とレコード投入をする。
-volumes:
-  db-data: # 名前付きボリューム
+
+  test-db: # MySQLのサービスに関する設定
+    image: mysql:8.0 # 使用するDockerイメージ
+    container_name: test-mysql # コンテナ名
+    ports:
+      - ${TEST_DB_PORT}:3306 # ローカルの該当ポートと、コンテナ内の3306ポートを接続する。
+    environment: # MySQLの初期設定を定義する環境変数
+      MYSQL_DATABASE: ${TEST_DB_NAME} # DB名
+      MYSQL_USER: ${DB_USER} # DBのユーザー名
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS} # DBのルートパスワード
+      MYSQL_PASSWORD: ${DB_PASS} # DBのパスワード
+      TZ: ${TZ} # タイムゾーン
+    volumes:
+      - test-db-data:/var/lib/mysql # コンテナの /var/lib/mysql ディレクトリ（MySQL のデータが保存される場所）をホストにマウント。
+      - ./conf/my.cnf:/etc/mysql/conf.d/my.cnf # コンテナのdb設定ファイル /etc/mysql/conf.d/my.cnf を、ローカルの ./conf/my.cnf へマウント
+      - ./initdb.d:/docker-entrypoint-initdb.d # 初期テーブルの作成とレコード投入をする。
+volumes: # 名前付きボリューム
+  app-db-data: # 本番用
+  test-db-data: # テスト用
