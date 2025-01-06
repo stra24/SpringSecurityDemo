@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Controller～Service～Repositoryのユニットテストサンプル
  */
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc // MockMvcのBeanを用意するためのもの。
 @Transactional
 public class LoginControllerTest {
 

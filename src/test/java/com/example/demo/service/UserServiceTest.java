@@ -17,8 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  * Serviceのユニットテストサンプル
  */
-@ExtendWith(MockitoExtension.class)
 // テスト時にこのクラスの処理（Mockitoのアノテーションの検知）を呼び出してくれて、@InjectMocksや@Mockが使えるようになる。
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
   // コンストラクタを呼び出し、@Mockがついているものを引数にインジェクションしてくれる。
