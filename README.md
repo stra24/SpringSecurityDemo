@@ -10,7 +10,7 @@ DB_USER=user
 DB_ROOT_PASS=pass
 DB_PASS=pass
 DB_PORT=3307
-TZ=Asia/Toky
+TZ=Asia/Tokyo
 
 TEST_DB_NAME=test_db
 TEST_DB_PORT=3308
